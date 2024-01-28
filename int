@@ -1,0 +1,53 @@
+// Define the LuaInterpreter class
+class LuaInterpreter {
+    constructor() {
+        // Initialize an empty symbol table
+        this.symbolTable = {};
+    }
+
+    // Method to execute Lua code
+    execute(code) {
+        // Split the code into lines
+        const lines = code.split('\n');
+
+        // Iterate through each line of code
+        for (let line of lines) {
+            line = line.trim(); // Remove leading and trailing spaces
+
+            // Check if the line is not empty
+            if (line !== '') {
+                // Check if the line contains a variable assignment
+                if (line.includes('=')) {
+                    const [variable, value] = line.split('=');
+                    const varName = variable.trim();
+                    const varValue = value.trim();
+                    // Store the variable in the symbol table
+                    this.symbolTable[varName] = varValue;
+                } else if (line === 'print()') {
+                    // If print() is called without arguments, print newline
+                    console.log('');
+                } else if (line.startsWith('print(') && line.endsWith(')')) {
+                    // If print() is called with arguments, extract and print variables
+                    const varName = line.substring(6, line.length - 1).trim();
+                    if (this.symbolTable[varName] !== undefined) {
+                        console.log(this.symbolTable[varName]);
+                    } else {
+                        console.log(`Error: Undefined variable '${varName}'`);
+                    }
+                } else {
+                    // Invalid syntax
+                    console.log(`Error: Invalid syntax - '${line}'`);
+                }
+            }
+        }
+    }
+}
+
+// Test the LuaInterpreter
+const luaInterpreter = new LuaInterpreter();
+luaInterpreter.execute(`
+    x = 10
+    y = "Hello, world!"
+    print(x)
+    print(y)
+`);
