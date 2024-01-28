@@ -46,5 +46,6 @@ class LuaInterpreter {
 // Test the LuaInterpreter
 const luaInterpreter = new LuaInterpreter();
 luaInterpreter.execute(`
-    #
+    x = 9
+    print( x )
 `);
